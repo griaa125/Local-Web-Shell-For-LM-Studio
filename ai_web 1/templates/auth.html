@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Вход</title>
+<style>
+body {
+    background:#343541;
+    color:white;
+    font-family:sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.box {
+    background:#202123;
+    padding:20px;
+    border-radius:10px;
+    width:300px;
+}
+input, button {
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:6px;
+    border:none;
+}
+button {
+    background:#10a37f;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h3>🤖 Local ChatGPT</h3>
+    <input id="u" placeholder="Логин">
+    <input id="p" type="password" placeholder="Пароль">
+    <button onclick="login()">Войти</button>
+    <button onclick="reg()">Регистрация</button>
+    <p id="err"></p>
+</div>
+
+<script>
+function login(){
+fetch("/login", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username:u.value,password:p.value})
+})
+.then(r=>r.json())
+.then(d=>d.ok ? location.reload() : err.innerText=d.error)
+}
+
+function reg(){
+fetch("/register", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username:u.value,password:p.value})
+})
+.then(r=>r.json())
+.then(d=>d.ok ? alert("Аккаунт создан") : err.innerText=d.error)
+}
+</script>
+
+</body>
+</html>
